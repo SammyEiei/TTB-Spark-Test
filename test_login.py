@@ -1,3 +1,4 @@
+import shutil
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,9 +14,18 @@ BASE_URL = "http://the-internet.herokuapp.com/login"
 def driver():
     """Set up and tear down WebDriver."""
     options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    service = Service(ChromeDriverManager().install())
+
+    # Use system chromedriver on CI/Linux, webdriver-manager on local
+    system_driver = shutil.which("chromedriver")
+    if system_driver:
+        service = Service(system_driver)
+        options.binary_location = shutil.which("chromium") or shutil.which("chromium-browser") or ""
+    else:
+        service = Service(ChromeDriverManager().install())
+
     drv = webdriver.Chrome(service=service, options=options)
     drv.implicitly_wait(10)
     yield drv
