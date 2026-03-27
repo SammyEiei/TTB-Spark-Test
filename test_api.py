@@ -1,8 +1,9 @@
+import os
 import pytest
 import requests
 
 BASE_URL = "https://reqres.in/api/users"
-HEADERS = {"x-api-key": "REDACTED"}
+HEADERS = {"x-api-key": os.environ.get("REQRES_API_KEY", "")}
 
 
 class TestGetUserProfile:
