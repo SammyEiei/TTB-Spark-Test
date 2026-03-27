@@ -12,7 +12,6 @@ pipeline {
         stage('Run Test Automate') {
             steps {
                 sh '''
-                    apt-get install -y python3 python3-pip chromium chromium-driver 2>/dev/null || true
                     python3 -m pip install -r requirements.txt --break-system-packages
                     python3 -m pytest test_login.py test_api.py -v --junitxml=result.xml
                 '''
