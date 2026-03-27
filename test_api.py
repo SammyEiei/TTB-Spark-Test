@@ -2,7 +2,6 @@ import pytest
 import requests
 
 BASE_URL = "https://reqres.in/api/users"
-# Get your free API key at: https://reqres.in/signup
 HEADERS = {"x-api-key": "REDACTED"}
 
 
